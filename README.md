@@ -9,7 +9,7 @@ The original project and dataset can be found [here](https://code.google.com/arc
 
 ## Forced Speech Alignment
 
-This demo project addres the determination of the location of phonemes in a speech signal, given the squence of phonemes constained in that signal. 
+This demo project addres the determination of the location of phonemes in a speech signal, given the squence of phonemes constrained in that signal. 
 
 ### What is forced alignment?
 
@@ -35,9 +35,9 @@ Based on words phonetic frequeny it is possible to identify their place in audio
 
 ##### Issue 1: Pronounciation Variants
 
-            walking - W AO1 L K IHO N
-            walking - W A01 L K IHO NG
-            walking - W AO1 L K IHO NG G
+    walking - W AO1 L K IHO N
+    walking - W A01 L K IHO NG
+    walking - W AO1 L K IHO NG G
             
 * **Option 1**: *include all options* <br>
 Let the aligner figure out which option to use
