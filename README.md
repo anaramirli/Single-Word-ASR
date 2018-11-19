@@ -75,9 +75,9 @@ Outside of the original fieldwork, this is the most time consuming and expensive
 
     Written Text->Phonetizer(Phonoetic Transcription) ->Feature Extraction-> =text_features
     Natural Speech->Feature Extraction-> =speech_features
-    text_features + speech_features -> DTW(Natural Speech with Phonetic Segmentation) = forced alignment
+    text_features + speech_features -> DTW (Natural Speech with Phonetic Segmentation) = forced alignment
 
-
+DTW (Dynamic Time Wraping) is an algorithm to align temporal sequences with possible local non-linear distortions.
 
 ### Concerns about forced alignment
 It will make mistakes
