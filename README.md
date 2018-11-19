@@ -73,7 +73,11 @@ Outside of the original fieldwork, this is the most time consuming and expensive
 
 ### How it works?
 
-Visually explain
+    Written Text->Phonetizer+Simple Prosody generation->Speech Synthesizer->Feature Extraction-> =text_features
+    Natural Speech->Feature Extraction-> =speech_features
+    text_features + speech_features -> DTWM (Natural Speech with Phonetic Segmentation) = forced alignment
+
+
 
 ### Concerns about forced alignment
 It will make mistakes
