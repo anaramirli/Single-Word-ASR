@@ -16,8 +16,10 @@ This demo project addres the determination of the location of phonemes in a spee
 Forced alignment is a technique to take an orthographic transcription of an audio file and generate a time-aligned version using a pronunciation dictionary to look up phones for words. 
 
 ### What we can do?
+* A speech text/audio forced alignment
 * Convert analogue recordings to digital format
-* **Identify where is the audio speech sounds of interest are**
+* Identify where is the audio speech sounds of interest are
+
 
 ### Finding words in audio
 
@@ -71,10 +73,10 @@ W=0.030000
 ##### Piece 3: A transcript
 Outside of the original fieldwork, this is the most time consuming and expensive part.
 
-### How it works?
+### How it works
 
-    Written Text->Phonetizer(Phonoetic Transcription) ->Feature Extraction-> =text_features
-    Natural Speech->Feature Extraction-> =speech_features
+    Written Text -> Phonological synthesizer -> Feature Extraction -> =text_features
+    Natural Speech Signal-> Feature Extraction-> =speech_features
     text_features + speech_features -> DTW (Natural Speech with Phonetic Segmentation) = forced alignment
 
 DTW (Dynamic Time Wraping) is an algorithm to align temporal sequences with possible local non-linear distortions.
