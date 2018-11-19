@@ -25,7 +25,7 @@ Forced alignment is a technique to take an orthographic transcription of an audi
 
 Based on words phonetic frequeny it is possible to identify their place in audio speech.
 
-### Bits and Pieces and Issues for doing forced alignment
+### Pieces and Issues for doing forced alignment
 
 ##### Piece 1: A pronouncing dictionary
 
@@ -83,5 +83,5 @@ DTW (Dynamic Time Wraping) is an algorithm to align temporal sequences with poss
 
 ### Concerns about forced alignment
 It will make mistakes
-* It is easier and faster (read: ceaper) to manually correct the output of automated systems than to create annotations from scratch.
+* It is easier and faster to manually correct the output of automated systems than to create annotations from scratch.
 * Humans make mistakes too! And the kinds of mistakes automated systems make are usually *systematic*, so they're easier to identify and locate. 
