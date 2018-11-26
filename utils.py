@@ -45,7 +45,7 @@ def plot_confusion_matrix(cm,
         vmin = 0
         vmax = 1
 
-    plt.figure(figsize=(4, 4))
+    plt.figure(figsize=(12, 12))
     cax = plt.imshow(
         cm, interpolation='nearest', vmin=vmin, vmax=vmax, cmap=cmap)
     plt.colorbar(cax)
