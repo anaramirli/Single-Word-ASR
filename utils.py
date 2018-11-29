@@ -4,6 +4,32 @@ import matplotlib.pyplot as plt
 import numpy as np
 import itertools
 
+
+def seperate_list(list, division_part):
+    """
+    Dividing list into equal parts or partialy equal parts
+    Parameters
+    ----------
+    
+    list - list
+    division_part - number of part to divide list into
+    
+    Returuns
+    --------
+    
+    out - single list containing all the divided lists
+    
+    """
+    avg = len(list) / float(division_part)
+    out = []
+    last = 0.0
+
+    while last < len(list):
+        out.append(list[int(last):int(last + avg)])
+        last += avg
+    return out
+
+
 def plot_confusion_matrix(cm,
                           classes,
                           xlabel,
@@ -16,7 +42,7 @@ def plot_confusion_matrix(cm,
     Parameters
     ----------
     cm : ndarray
-        Confusion matrix as a 2D numpy.array.
+        Confusion matrix as a 2D division_partpy.array.
     classes : list of str
         Names of classified classes.
     xlabel : str
