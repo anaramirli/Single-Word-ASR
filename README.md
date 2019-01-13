@@ -6,4 +6,9 @@ The result of the log argmax of HMM on the *Train* and unseen *Test* setes are *
 
 The accuracy of NN on *Valdation* and unseen *Test* setes are **98.93%** and **98.44%**, accordingly. This indicates that the method has a good generalization.
 
+| Model | Train Acc | Validation Acc | Test Acc |
+| :---         |     :---:      |     :---:      |     :---:     |     
+| git status   | git status     | git status    | sth            |
+| git diff     | git diff       | git diff      | adwd           |
+
 Main implementation can be found on **HMM_speech_recognizer.ipynb** and **NN_speech_recognizer.ipynb**.
