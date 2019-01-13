@@ -2,6 +2,8 @@
 
 This project involves building multi-speaker speech recognition for 41 words and phrase combinations of different lengths using the Neural Networks, [Hidden Markov Models](https://mi.eng.cam.ac.uk/~mjfg/mjfg_NOW.pdf) and the hyperparameter optimization of the outcome of the built-in models.
 
+Dataset: 41 context based words, 21432 entries
+
 | Model | Train Acc | Validation Acc | Test Acc |
 | :--- | :---: | :---: | ---: |     
 | HMM   | 96.24% | - | 95.74% |
