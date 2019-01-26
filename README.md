@@ -13,4 +13,4 @@ Dataset: 41 context based words, 21432 entries<br/>
 | NN | 99.99% | 98.98% | 97.69% | 1.66% |
 | NN (one vs. all) | >99.45% | >99.84% | 97.00% | 2.86% |
 
-`* =  wehn h1>0.9 and h2-h1>0.5 for test data`
+`* =  wehn h1>0.9 and h1-h12>0.5 for unseen data`
