@@ -6,63 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.utils import shuffle
 from sklearn import preprocessing
 import itertools
-
-
-
-def y_categorical(y_data,category_size):
-    """
-    # prepare categorical target values (y) (e.g [0,0,0,1,0])
-    
-    Paramaters
-    ----------
-    y_data: target data
-    
-    """
-    target = np.zeros((len(y_data),category_size),dtype=int)
-    for i,_ in enumerate(y_data):
-        target[i][int(_)]=1
-        
-    return target
-
-
-def utils_prepare_data(data_df, label_increment=False, categorical=True, category_size=41, normalize=True):
-    """
-    get data and return preprocessed data
-    
-    Parameters
-    ----------
-    train_df: train data
-    test_df: test data
-    label_increment: increment model index only for one vs. all models, default False
-    categorical: categorical preperation of data, default True
-    category_size: category size for catageorical preperation, default: 41
-    normalize: normalize data, default True;
-    
-    Return
-    ------
-    X_out, y_out
-    """
-    
-    # get train label and data
-    y_out = data_df.values[:,0]
-    X_out = data_df.values[:,1:]
-   
-   
-    if (label_increment):
-        y_out=y_out[:]+1
-    
-    if(categorical):
-        y_out = y_categorical(y_out, category_size)
-        
-    if(normalize):
-        # noramlize train 
-        scaler = preprocessing.StandardScaler().fit(X_out)
-        X_out=scaler.transform(X_out)
-        
-    # shuffle data
-    X_out, y_out = shuffle(X_out, y_out, random_state=42)
-    
-    return X_out, y_out
+import re
 
 
 def seperate_list(list, division_part):
@@ -137,7 +81,7 @@ def plot_confusion_matrix(cm,
     plt.colorbar(cax)
     
     tick_marks = np.arange(len(classes))
-    plt.xticks(tick_marks, classes, rotation=45)
+    plt.xticks(tick_marks, classes, rotation=90)
 
 
     plt.yticks(tick_marks,classes)
