@@ -4,7 +4,7 @@ This project involves building context based speech recognition for 41 words and
 
 
 Dataset: 41 context based words, 30620 entries<br/>
-dataset: bit.ly/data-contex-based-asr <br/>
+dataset: [bit.ly/data-contex-based-asr](bit.ly/data-contex-based-asr) <br/>
 `src` directory to view notebooks
 
 
