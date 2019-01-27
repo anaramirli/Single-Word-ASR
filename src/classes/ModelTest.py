@@ -9,7 +9,7 @@ from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 
 # our classes
-from EvaluateModel import *
+from classes.EvaluateModel import *
 
 
 class ModelTest(object):
@@ -57,7 +57,7 @@ class ModelTest(object):
             del evaluate
     
     
-    def get_mfcc(self, wav_path):
+    def get_mfcc(self, wav_path, array_length=2808):
         
         
         if not os.path.isfile(wav_path):
@@ -77,10 +77,10 @@ class ModelTest(object):
             mfcc_len=mfcc_features.shape[0]*mfcc_features.shape[1]
             # resize flat data into 2D array
             mfcc_2d = np.resize(mfcc_features,(1,mfcc_len))
-            non_sequence_mfcc = np.zeros((1,2808), dtype=float)
+            non_sequence_mfcc = np.zeros((1,array_length), dtype=float)
             
-            if (mfcc_2d.shape[1]>2808):
-                non_sequence_mfcc[0,0:]=mfcc_2d[0,0:2808]
+            if (mfcc_2d.shape[1]>array_length):
+                non_sequence_mfcc[0,0:]=mfcc_2d[0,0:array_length]
             else :
                 non_sequence_mfcc[0,0:mfcc_2d.shape[1]]= mfcc_2d
 
