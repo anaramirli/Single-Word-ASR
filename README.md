@@ -10,7 +10,7 @@ dataset: [bit.ly/data-contex-based-asr](https://bit.ly/data-contex-based-asr) <b
 
 | Model | Train Acc | Validation Acc | Test Acc* | Rejection
 | :--- | :---: | :---: | :---: | ---: |     
-| HMM   | 96.24% | - | 95.74% | - |
+| HMM   | 96.12% | - | 95.12% | - |
 | NN | 99.99% | 98.98% | 97.62% | 1.66% |
 | NN (one vs. all) | >99.45% | >98.84% | 97.00% | 2.86% |
 
