@@ -3,8 +3,7 @@
 This project involves building context based speech recognition in Fligh Simulator for a limited vocabulary by utilizing the Neural Networks, [Hidden Markov Models](https://mi.eng.cam.ac.uk/~mjfg/mjfg_NOW.pdf) and the hyperparameter optimization of the outcome of the built-in models.
 
 
-Dataset: 41 context based words, 30620 entries<br/>
-dataset: [bit.ly/data-contex-based-asr](https://bit.ly/data-contex-based-asr) <br/><br/>
+Dataset: 41 context based words, 30620 entries<br/><br/>
 `src` directory to view notebook and python files
 
 
