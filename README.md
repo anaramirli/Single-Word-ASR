@@ -14,7 +14,7 @@ dataset: [bit.ly/data-contex-based-asr](https://bit.ly/data-contex-based-asr) <b
 | NN | 99.99% | 98.98% | 97.62% | 1.66% |
 | NN (one vs. all) | >99.45% | >98.84% | 97.00% | 2.86% |
 
-`* =  when h1>0.9 and h1-h12>0.5 for unseen data`
+`* =  when h1>0.9 and h1-h2>0.5 for unseen data`
 
 
 # Project Instructions
