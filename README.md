@@ -16,7 +16,7 @@ Dataset: 41 context based words, 30620 entries<br/>
 
 `* =  when c1 and c2 meet`
 
-$c1=\overline{y}_k \geq \Delta_1$
+$$c1=\overline{y}_k \geq \Delta_1$$
 $c2=\overline{y}_k - \widetilde{y}_p \geq \Delta_2$
 
 $y = \left \{ {y_0,y_1,... {y}_{N}} \right \}$ is the set of the  output for all classes
