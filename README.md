@@ -5,6 +5,7 @@ This project involves building context based speech recognition in Fligh Simulat
 
 Dataset: 41 context based words, 30620 entries<br/>
 `src` directory to view notebook and python files<br/>
+`documentation` directory to view documentation files.<br/>
 
 
 | Model | Train Acc | Validation Acc | Test Acc* | Rejection
@@ -13,7 +14,16 @@ Dataset: 41 context based words, 30620 entries<br/>
 | NN | 99.99% | 98.98% | 97.62% | 1.66% |
 | NN (one vs. all) | >99.45% | >98.84% | 97.00% | 2.86% |
 
-`* =  when h1>0.9 and h1-h2>0.5 for unseen data`
+`* =  when c1 and c2 meet`
+
+$c1=\overline{y}_k \geq \Delta_1$
+$c2=\overline{y}_k - \widetilde{y}_p \geq \Delta_2$
+
+$y = \left \{ {y_0,y_1,... {y}_{N}} \right \}$ is the set of the  output for all classes
+
+$overline{y}_k = \underset{1\leq i \leq N }{\max y_i}, \quad k = \underset{1\leq i \leq N }{\arg \max y_i}$
+
+$\widetilde{y}_p = \underset{i\leq i\leq k ; k+1\leq i\leq N }{\max y_i}$
 
 
 # Project Instructions
