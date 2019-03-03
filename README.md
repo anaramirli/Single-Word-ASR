@@ -52,9 +52,14 @@ You can found more detailed information at documentation folder.
 
 3. Check requiremenets.
     ```
-    requirements.py
+    python requirements.py
     ```
-4. How to use.
+4. Testing
+    You can find implementation samples on test.py
+    ```
+    python test.py
+    ```
+5. How to use.
     
     ```
     # call our classes
