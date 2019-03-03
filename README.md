@@ -102,8 +102,8 @@ You can found more detailed information at documentation folder.
     
     # call result
     # audio is 1D array audio array, dtype=float32
-    
-    label_nn = model_test.get_model_result(audio, "1_all_NN-normalize", normalize=True)
-    labe_hmm =  model_test.get_model_result(audio, "HMMs", normalize=True)
+
+    label_nn = model_test.get_model_result(audio=audio, model_name="1_all_NN-normalize", h1=0.9, h2=0.5, normalize=True, seq_length=2808, sampling=16000)
+    labe_hmm =  model_test.get_model_result(audio=audio, "HMMs", normalize=True)
     
     ```
