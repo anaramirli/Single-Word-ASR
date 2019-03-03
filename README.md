@@ -4,7 +4,7 @@ This project involves building context based speech recognition in Fligh Simulat
 
 
 Dataset: 41 context based words, 30620 entries<br/>
-Dataset-2: 82 context based words, 38602 entries<br/>
+Dataset-2: 84 context based words, 38602 entries<br/>
 
 `src` directory to view notebook and python files<br/>
 `documentation` directory to view documentation files.<br/>
@@ -17,8 +17,8 @@ Current models:
 | NN-41 | 99.99% | 98.98% | 97.62% | 1.66% |
 | NN-41 (one vs. all) | >99.45% | >98.84% | 97.00% | 2.86% |
 | NN-41 (one vs. one) | - | - | - | - |
-| HMM-82 (one vs. one) | - | - | - | - |
-| NN-82 | - | - | - | - |
+| HMM-84 (one vs. one) | - | - | - | - |
+| NN-84 | - | - | - | - |
 
 `* =  when h1>=0.9 and h1-h2>=0.5`
 
