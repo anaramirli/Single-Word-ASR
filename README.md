@@ -31,7 +31,7 @@ You can found more detailed information at documentation folder.
 1. Clone the repository, and navigate to the downloaded folder.
 
     ```
-    git clone https://github.com/anaramirli/contex-based-asr.git
+    git clone https://github.com/anaramirli/flight-simulator-asr.git
     cd contex-based-asr
     ```
     
