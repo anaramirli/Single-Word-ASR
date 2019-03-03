@@ -3,6 +3,7 @@ import os
 import pandas as pd
 import json
 from scipy.io import wavfile
+import math
 from python_speech_features import mfcc, logfbank
 from sklearn.preprocessing import StandardScaler
 
@@ -12,43 +13,29 @@ import matplotlib.pyplot as plt
 from classes.EvaluateModel import *
 
 
+
 class ModelTest(object):
     
     eval_model_dir = dict()
     
-    def __init__(self, dict_path, model_grid, test_path, class_size):
+    # normalization values
+    mean = np.array
+    var = np.array
+    
+    
+    def __init__(self, model_grid):
 
         self.model_grid = model_grid
-        self.class_size = class_size
-        self.dict_path = dict_path
-        self.test_path = test_path
-        
-        if type(self.class_size)!=int:
-            assert False, "class_size must be integer"
-        
-        if not os.path.isfile(dict_path):
-            assert False, "ditc file does not exists"
-        else:
-            # get label dict
-            with open(self.dict_path, encoding='utf-8') as data_file:
-                self.model_dict = json.loads(data_file.read())
-
-        if not os.path.isfile(self.test_path):
-            assert False, "test path does not exists"
-        else:
-            test_df = pd.read_csv(self.test_path)
-            X_out = test_df.values[:,1:]
-            self.scaler = StandardScaler().fit(X_out)
 
       
-
+     
     def init_models(self):
 
         for model in self.model_grid:
             print(model['model_name'])
 
             # initialize evaluate model
-            evaluate = EvaluateModel(model['model_name'], model['model_type'], model['model_dir'], class_size=self.class_size)
+            evaluate = EvaluateModel(model['model_name'], model['api_name'], model['model_type'], model['model_path'], model['scaler_path'],  dict_path=model['dict_path'], class_size=model['class_size'])
             # get model
             evaluate.models = evaluate.get_models()
             # append model to dict
@@ -56,61 +43,103 @@ class ModelTest(object):
 
             del evaluate
     
+    def clean_zeros_features(self, X, scaler_mean_var, normalize):
+
+        # sequence data
+        X_out=[]
+
+
+        for j in range(len(X)-1,0,-13):
+
+            if(X[j]!=0):
+                index = j+1
+                while ((index)%13!=0):
+                    index+=1
+
+                new_data=X[0:index]
+
+                if normalize==True:
+                    mean = scaler_mean_var.values[0,:]
+                    var =  scaler_mean_var.values[1,:]
+                    for idx in range(index):
+                        new_data[idx]=(new_data[idx]-mean[idx])/math.sqrt(var[idx])
+
+                new_data=np.reshape(new_data,(int(index/13),13))
+
+                X_out.insert(0,new_data)
+
+                break
+
+        return np.array(X_out)
+
     
-    def get_mfcc(self, wav_path, array_length=2808):
+    def get_mfcc(self, audio, scaler_mean_var, normalize, api_name, seq_lenghth, sampling_freq):
+      
+        
+        if normalize==True and scaler_mean_var is None:
+            assert False, "Sclaer values can not be null when normalize is True"
         
         
-        if not os.path.isfile(wav_path):
-            assert False, "File does not exists"
-        else:
-            
-            # read file 
-            sampling_freq, audio = wavfile.read(wav_path)
-            # Extract MFCC features
-            mfcc_features = mfcc(audio, sampling_freq)
-
-            # normalize sequence_mfcc 
-            scaler = StandardScaler().fit(mfcc_features)
-            sequence_mfcc  = scaler.transform(mfcc_features)
-
-            # create non-sequential mffc by converting mfcc it 2D array and then padding zeroes
-            mfcc_len=mfcc_features.shape[0]*mfcc_features.shape[1]
-            # resize flat data into 2D array
-            mfcc_2d = np.resize(mfcc_features,(1,mfcc_len))
-            non_sequence_mfcc = np.zeros((1,array_length), dtype=float)
-            
-            if (mfcc_2d.shape[1]>array_length):
-                non_sequence_mfcc[0,0:]=mfcc_2d[0,0:array_length]
-            else :
-                non_sequence_mfcc[0,0:mfcc_2d.shape[1]]= mfcc_2d
-
-            # normalize non-sequential
-            non_sequence_mfcc=self.scaler.transform(non_sequence_mfcc)
-
-        return sequence_mfcc, non_sequence_mfcc
-    
-            
-    def get_model_result(self, wav_path, model_name):
+        audio = np.array(audio)
+        # Extract MFCC features
+        mfcc_features = mfcc(audio, sampling_freq)
+        # create non-sequential mffc by converting mfcc it 2D array and then padding zeroes
+        mfcc_len=mfcc_features.shape[0]*mfcc_features.shape[1]
         
-        result = ""
-    
-    
-        # get mffc values 
-        sequence_mfcc, non_sequence_mfcc = self.get_mfcc(wav_path)
+        # resize flat data into 2D array
+        mfcc_features = np.resize(mfcc_features,(1,mfcc_len))
+        non_sequence_mfcc = np.zeros((1,seq_lenghth), dtype=float)
+        
+        
+        # get mfcc featuress as 1D array (non-sequence)
+        if (mfcc_len>seq_lenghth):
+            non_sequence_mfcc[:,:] = mfcc_features[:,0:seq_lenghth]
+        else :
+            non_sequence_mfcc[:,0:mfcc_len]= mfcc_features
+
+
+        # get mfcc features as sequence
+        if "hmmlearn" in api_name.lower():
             
+            sequence_mfcc = self.clean_zeros_features(X=non_sequence_mfcc[0], scaler_mean_var=scaler_mean_var, normalize=normalize)
+            return sequence_mfcc    
+        
+        
+        if normalize==True:
+            mean = scaler_mean_var.values[0,:]
+            var =  scaler_mean_var.values[1,:]
+            for idx_nor in range(seq_lenghth):
+                non_sequence_mfcc[:,idx_nor]=(non_sequence_mfcc[:,idx_nor]-mean[idx_nor])/(math.sqrt(var[idx_nor]))
+
+
+        return non_sequence_mfcc
+    
+            
+    def get_model_result(self, audio, model_name, h1=0.9, h2=0.5, normalize=False,seq_lenghth=2808, sampling_freq=16000):
+        
+        # get prediction results
+    
         # get model
         model = self.eval_model_dir[model_name]
-        # get prediction results
+            
+        # get mffc values 
+        if normalize==True:
+            data_mfcc = self.get_mfcc(audio=audio, scaler_mean_var=model.scaler_mean_var, normalize=True, api_name=model.api_name, seq_lenghth=2808, sampling_freq=16000)
+        else:
+            data_mfcc = self.get_mfcc(audio=audio, scaler_mean_var=None, normalize=False, api_name=model.api_name, seq_lenghth=2808, sampling_freq=16000)
+            
+        
 
-        if model_name!="HMMs":
-            predicted_labels = model.calculate_res(model.models, h1=0.9, h2=0.5, X_test=non_sequence_mfcc)
+        if "hmmlearn" not in (model.api_name).lower():
+            
+            predicted_labels = model.calculate_res(models=model.models, h1=h1, h2=h2, X=data_mfcc)
 
             if int(predicted_labels[0])!=41: 
-                result =self.model_dict[str(predicted_labels[0])]
+                return model.model_dict[str(predicted_labels[0])]
             else:
-                result = 'unknown'
+                return 'unknown'
         else:
-            predicted_labels = model.calculate_res_sequential(model.models, X_test=[sequence_mfcc])
-            result= self.model_dict[str(predicted_labels[0])]
+            predicted_labels = model.calculate_res_sequential(models=model.models, X=data_mfcc)
+            #result= self.model_dict[str(predicted_labels[0])]
+            return model.model_dict[str(predicted_labels[0])]
                 
-        return result

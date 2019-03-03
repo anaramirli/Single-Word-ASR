@@ -2,6 +2,7 @@
 
 import numpy as np
 import os
+import json
 from keras.models import load_model
 from keras.models import Sequential
 from sklearn.utils import shuffle
@@ -19,23 +20,47 @@ class EvaluateModel(object):
     # loaded models
     models = []
     
-    def __init__(self, model_name, model_type, model_path, class_size):
+    # model dict
+    model_dict = dict()
+    
+    # scaler values
+    scaler_mean_var = None
+    
+    def __init__(self, model_name, api_name, model_type, model_path, scaler_path, dict_path, class_size):
         
         self.model_name = model_name
+        self.api_name   = api_name
         self.model_type = model_type
         self.model_path = model_path
-        
+        self.scaler_path = scaler_path
         self.class_size = class_size
+        
         
         if type(self.class_size)!=int:
             assert False, "class_size must be integer"
+
+        if len(self.scaler_path)==0:
+            self.scaler_mean_var=None
+        elif not os.path.isfile(self.scaler_path):
+            assert False, "scaler file not found"
+        else:
+            self.scaler_mean_var = pd.read_csv(self.scaler_path)
+        
+        if not os.path.isfile(dict_path):
+            assert False, "model dict not found"
+        else:
+            # get label dict
+            with open(dict_path, encoding='utf-8') as data_file:
+                self.model_dict = json.loads(data_file.read())
             
-     
-        if not os.path.isdir(model_path):
-            assert False, "Path does not exists"
+        if not os.path.isdir(self.model_path):
+            assert False, "model path does not exist"
        
-        if(model_type!="normal" and model_type!="onevsall"):
+        if(self.model_type!="normal" and self.model_type!="onevsall"):
             raise TypeError("Model type is not correct")
+
+     
+
             
             
     def atoi(self,text):
@@ -76,21 +101,15 @@ class EvaluateModel(object):
         return models
 
     
-    def calculate_res_sequential(self, models, X_test, argmax_axis=0):
-        
-        
-        if type(models)!=list and len(models)<=1:
-            assert False, "models must be list"
-            
-        if type(X_test)!=list and len(X_test)<=1:
-            assert False, "X_test must be list"
-        
-        logprob = np.array([[m.score(i, [i.shape[0]]) for i in X_test] for m in models])
+    def calculate_res_sequential(self, models, X, argmax_axis=0):
+       
+        logprob = np.array([[m.score(i, [i.shape[0]]) for i in X] for m in models])
         predicted_label = np.argmax(logprob, axis=argmax_axis)
+        
         
         return predicted_label
     
-    def calculate_res(self, models, h1, h2, X_test, target=np.array([])):
+    def calculate_res(self, models, h1, h2, X, target=np.array([])):
 
         '''
         how to evaluate evaluate model:
@@ -101,7 +120,7 @@ class EvaluateModel(object):
         ----------
         h1: first threshold value (used for prob>h1)
         h2: second threschold value (used for prob>h2-h1)
-        X_test: x data
+        X: x data
         target: 1D target data, if target is empty, then model works as evaluation model, not as test
         newdata: do not produce accuracy rate of finding, default False
 
@@ -117,10 +136,10 @@ class EvaluateModel(object):
         actual_label = target
 
         # generate empty reult array
-        result=np.zeros((X_test.shape[0]), dtype=int)
+        result=np.zeros((X.shape[0]), dtype=int)
 
         # array for storing predicted labels
-        predicted_label = np.zeros((X_test.shape[0]), dtype=int)
+        predicted_label = np.zeros((X.shape[0]), dtype=int)
 
         if(self.model_type!="normal" and self.model_type!="onevsall"):
             assert False, "Model type is not correct"
@@ -135,15 +154,15 @@ class EvaluateModel(object):
             assert False, "If model is normal, then model size must be one"
 
         if (self.model_type=="normal"):
-            prob = models[0].predict_proba(X_test)
+            prob = models[0].predict_proba(X)
         else:
-            prob = np.array([m.predict_proba(X_test)[:,0] for m in models]) ## prob of one gorup
-            prob2 = np.array([m.predict_proba(X_test)[:,1] for m in models]) ## prob of others group
+            prob = np.array([m.predict_proba(X)[:,0] for m in models]) ## prob of one gorup
+            prob2 = np.array([m.predict_proba(X)[:,1] for m in models]) ## prob of others group
             
             prob=prob.T
             prob2=prob2.T
 
-        for i in range(X_test.shape[0]):
+        for i in range(X.shape[0]):
             max_array=[]
             max_n=-100
             max_min=100

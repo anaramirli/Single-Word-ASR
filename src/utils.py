@@ -2,11 +2,34 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
+import os
+from keras.models import load_model
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import shuffle
 from sklearn import preprocessing
 import itertools
 import re
+
+
+def atoi(text):
+    return int(text) if str(text).isdigit() else text
+
+def natural_keys(text):
+    return [ atoi(c) for c in re.split('(\d+)', int(text) if str(text).isdigit() else text) ]
+
+def load_model(w):
+    '''
+    Load model from dir
+    '''
+    
+    model_group = None
+
+    if (w.find('.h5')!=-1):
+        # model_name=w
+        # [str(model_name[:-3])]
+        model_group = load_model('models/1_vs_1/mix'+'/{model}'.format(model=model_name))
+            
+    return model_group
 
 
 def seperate_list(list, division_part):
@@ -101,4 +124,25 @@ def plot_confusion_matrix(cm,
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
   
+    plt.show()
+    
+    
+
+def plot_keras_los_acc_hist(history):
+    # Plot training & validation accuracy values
+    plt.plot(history.history['acc'])
+    plt.plot(history.history['val_acc'])
+    plt.title('Model accuracy')
+    plt.ylabel('Accuracy')
+    plt.xlabel('Epoch')
+    plt.legend(['Train', 'Test'], loc='upper left')
+    plt.show()
+
+    # Plot training & validation loss values
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+    plt.title('Model loss')
+    plt.ylabel('Loss')
+    plt.xlabel('Epoch')
+    plt.legend(['Train', 'Test'], loc='upper left')
     plt.show()
