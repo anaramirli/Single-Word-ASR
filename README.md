@@ -64,8 +64,8 @@ You can found more detailed information at documentation folder.
     
     ```python
     # call our classes
-    from EvaluateModel import *
-    from ModelTest import *
+    from classes.EvaluateModel import *
+    from classes.ModelTest import *
     
     
     # create model gird
