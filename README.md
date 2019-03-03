@@ -62,7 +62,7 @@ You can found more detailed information at documentation folder.
     ```
 5. How to use.
     
-    ```
+    ```python
     # call our classes
     from EvaluateModel import *
     from ModelTest import *
