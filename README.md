@@ -1,7 +1,6 @@
 # Speech-Recognition
 
-This project involves building end-to-end speech recognition in a fligh simulator for a limited vocabulary by utilizing the Neural Networks, [Hidden Markov Models](https://mi.eng.cam.ac.uk/~mjfg/mjfg_NOW.pdf) and the hyperparameter optimization of the outcome of the built-in models. Here we study the outcomes of model
-selection techniques for a speech recognition model on the given task task.
+This project involves building end-to-end speech recognition in a fligh simulator for a limited vocabulary by utilizing the Neural Networks and Hidden Markov Models. Here we moreover study the impact of model selection techniques for the given models.
 
 
 Dataset: 41 context based words, 30620 entries<br/>
